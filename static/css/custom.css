@@ -103,3 +103,76 @@ label:hover~input:checked~label {
     height: 85px;
     width: 85px;
 }
+
+#header {
+    height: 85px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 50px;
+    align-items: center;
+    width: 100%;
+}
+
+#navBar {
+    width: 70%;
+}
+
+#toggle-navBar {
+    display: none;
+}
+
+#toggle-navBar > i {
+    font-size: 30px;
+}
+
+#toggle-navBar > i:hover {
+    cursor: pointer;
+    font-size: 31px;
+}
+
+@media only screen and (min-width: 767px) {
+    #navBar {
+        display: block;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    section {
+        padding: 0px 30px;
+    }
+    footer{
+        padding: 0;
+    }
+
+    #toggle-navBar {
+        display: block;
+    }
+
+    #navBar {
+        display: none;
+        background: rgba(0, 0, 0, 0.7);
+        box-shadow: 0 0 30px rgb(0 0 0 / 10%);
+        backdrop-filter: blur(3px);
+        height: 280px!important;
+        overflow: hidden;
+        position: fixed;
+        top: 85px;
+        left: 0;
+        width: 100%;
+        padding: 20px;
+    }
+
+    #navBar .row {
+        display: flex;
+        flex-direction: column!important;
+        align-items: center!important;
+        justify-content: center!important;
+        row-gap: 20px;
+    }
+
+    #navBar .row > div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}

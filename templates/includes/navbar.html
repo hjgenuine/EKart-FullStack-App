@@ -1,15 +1,15 @@
 {% load static %}
     
-    <header class="section-header" id="header">
-        
-        <section class="header-main border-bottom">
+    <header class="section-header border-bottom" id="header">
+        <a href="{% url 'homepage' %}" class="brand-wrap">
+            <h1 style="color: red">E-Kart</h1>
+        </a> <!-- brand-wrap.// -->
+        <p id="toggle-navBar" style="font-size: 20px;">
+            <i class="fa fa-bars" aria-hidden="true" style="color: red"></i>
+        </p>
+        <section class="header-main" id="navBar">
             <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-2 col-md-3 col-6">
-                <a href="{% url 'homepage' %}" class="brand-wrap">
-                    <h1 style="color: red">E-Kart</h1>
-                </a> <!-- brand-wrap.// -->
-            </div>
+            <div class="row align-items-center">
             <div class="col-lg col-sm col-md col-6 flex-grow-0">
                 <div class="category-wrap dropdown d-inline-block float-right">
                     <button type="button" class="btn btn-outline-danger dropdown-toggle " data-toggle="dropdown"> 
@@ -67,3 +67,11 @@
         </section> <!-- header-main .// -->
         
     </header> <!-- section-header.// -->
+
+    <script>
+        const btn = document.getElementById("toggle-navBar");
+        const navBar = document.getElementById("navBar");
+        btn.addEventListener("click", () => {
+            navBar.style.display = navBar.style.display == "" ? "block" : "";
+        })
+    </script>
