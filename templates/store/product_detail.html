@@ -1,0 +1,213 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<section class="section-content padding-y">
+	<div class="container">
+
+		<!-- ============================ COMPONENT 1 ================================= -->	
+		<div class="card ">
+			<div class="row no-gutters">
+				<aside class="col-md-6">
+					<article class="gallery-wrap">
+						<div class="img-big-wrap">
+							<a href="#"><img src="{{ product.images.url }}"></a>
+						</div> <!-- img-big-wrap.// -->
+					</article> <!-- gallery-wrap .end// -->
+					<ul class="product-thumbnail">
+						<li class="rounded">
+							<img src="{{ product.images.url }}">
+						</li>
+						{% for photo in photos %}
+						<li class="rounded">
+							<img src="{{ photo.image.url }}">
+						</li>
+						{% endfor %}
+					</ul>
+				</aside>
+				<main class="col-md-6 border-left">
+
+					<form action="{% url 'cart:add_cart' product_id=product.id %}" method="POST">
+						{% csrf_token %}
+						<article class="content-body">
+
+							<h2 class="title">{{ product.product_name }}</h2>
+							
+							{% if product.get_rating != 0 %}
+								<div class="rating" style="margin-bottom: 15px; color: orange;">
+									<i class="fa fa-star{% if product.get_rating < 0.5 %}-o{% elif product.get_rating < 1 %}-half-o{% endif %}"></i>
+									<i class="fa fa-star{% if product.get_rating < 1.5 %}-o{% elif product.get_rating < 2 %}-half-o{% endif %}"></i>
+									<i class="fa fa-star{% if product.get_rating < 2.5 %}-o{% elif product.get_rating < 3 %}-half-o{% endif %}"></i>
+									<i class="fa fa-star{% if product.get_rating < 3.5 %}-o{% elif product.get_rating < 4 %}-half-o{% endif %}"></i>
+									<i class="fa fa-star{% if product.get_rating < 4.5 %}-o{% elif product.get_rating < 5 %}-half-o{% endif %}"></i>
+									&nbsp;
+									<span style="color: rgb(100, 100, 100)">{{ product.rating_cnt }} rating{% if product.rating_cnt > 1 %}s{% endif %}</span>
+								</div>
+							{% endif %}
+
+							<div class="mb-3">
+								<var class="price h4 text-white">$ {{ product.price }}</var>
+							</div>
+
+							<p>{{ product.description }}</p>
+
+
+							<hr>
+							<div class="row">
+								&nbsp;&nbsp;
+								<div class="item-option-select" required>
+									<h6>Choose Color</h6>
+									<select name="color" class="form-control" required>
+										<option value="" disabled selected>Select</option>
+										{% for var in product.variation_set.colors %}
+										<option value="{{ var.variation_value | lower }}">{{ var.variation_value |capfirst }}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div> <!-- row.// -->
+							<div class="row">
+								&nbsp;&nbsp;
+								<div class="item-option-select">
+									<h6>Select Size</h6>
+									<select name="size" class="form-control ">
+										<option value="" disabled selected>Select</option>
+										{% for var in product.variation_set.sizes %}
+										<option value="{{ var.variation_value | lower }}">{{ var.variation_value | capfirst }}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div> <!-- row.// -->
+							<hr>
+							{% if product.stock > 0 %}
+							<button type="submit" class="btn btn-outline-danger"> <span class="text">Add to cart</span> <i
+									class="fas fa-shopping-cart"></i></button>
+							{% else %}
+							<btn class="btn btn-danger ">Out of Stock</btn>
+							{% endif %}
+
+						</article> <!-- product-info-aside .// -->
+					</form>
+
+				</main> <!-- col.// -->
+			</div> <!-- row.// -->
+		</div> <!-- card.// -->
+		<!-- ============================ COMPONENT 1 END .// ================================= -->
+
+		<br>
+
+		<div class="row">
+			<div class="col-md-9">
+
+				<header class="section-heading">
+					<h3 class="text-white">Customer Reviews </h3>
+				</header>
+
+				{% if product.get_rating != 0 %}
+					<div class="rating" style="margin-bottom: 25px; color: orange;">
+						<i class="fa fa-star{% if product.get_rating < 0.5 %}-o{% elif product.get_rating < 1 %}-half-o{% endif %}"></i>
+						<i class="fa fa-star{% if product.get_rating < 1.5 %}-o{% elif product.get_rating < 2 %}-half-o{% endif %}"></i>
+						<i class="fa fa-star{% if product.get_rating < 2.5 %}-o{% elif product.get_rating < 3 %}-half-o{% endif %}"></i>
+						<i class="fa fa-star{% if product.get_rating < 3.5 %}-o{% elif product.get_rating < 4 %}-half-o{% endif %}"></i>
+						<i class="fa fa-star{% if product.get_rating < 4.5 %}-o{% elif product.get_rating < 5 %}-half-o{% endif %}"></i>
+						&nbsp;
+						<span style="color: black;">{{ product.get_rating }} out of 5</span>
+						<br>
+						<span style="color: rgb(100, 100, 100)">{{ product.rating_cnt }} rating{% if product.rating_cnt > 1 %}s{% endif %}</span>
+					</div>
+				{% endif %}
+
+					<div class="card ">
+						<form action="{% url 'store:submit_review' product.id %}" method="POST">
+						{% csrf_token %}
+						{% include 'includes/alerts.html' %}
+						<h5 class="card-header" style="background-color: black; overflow: none">Review this Product</h5>
+						<div class="card-body">
+							<div class="form-group rate">
+								<input type="radio" name="rating" id="ratingBtn10" value="5"><label for="ratingBtn10" title="5"></label>
+								<input type="radio" name="rating" id="ratingBtn9" value="4.5"><label for="ratingBtn9" title="4.5" class="half"></label>
+								<input type="radio" name="rating" id="ratingBtn8" value="4"><label for="ratingBtn8" title="4"></label>
+								<input type="radio" name="rating" id="ratingBtn7" value="3.5"><label for="ratingBtn7" title="3.5" class="half"></label>
+								<input type="radio" name="rating" id="ratingBtn6" value="3"><label for="ratingBtn6" title="3"></label>
+								<input type="radio" name="rating" id="ratingBtn5" value="2.5"><label for="ratingBtn5" title="2.5"  class="half"></label>
+								<input type="radio" name="rating" id="ratingBtn4" value="2"><label for="ratingBtn4" title="2"></label>
+								<input type="radio" name="rating" id="ratingBtn3" value="1.5"><label for="ratingBtn3" title="1.5"  class="half"></label>
+								<input type="radio" name="rating" id="ratingBtn2" value="1"><label for="ratingBtn2" title="1"></label>
+								<input type="radio" name="rating" id="ratingBtn1" value="0.5"><label for="ratingBtn1" title="0.5"  class="half"></label>
+							</div>
+							<div class="form-group">
+								<label for="subject">Review Title:</label>
+								<input type="text" class="form-control " name="subject" id="subject">
+							</div>
+							<div class="form-group">
+								<label for="review">Review Description:</label>
+								<textarea name="review" id="review" cols="30" rows="4" class="form-control "></textarea>
+							</div>
+							{% if user.is_authenticated %}
+								{% if purchased %}
+									<button type="submit" class="btn btn-outline-danger ">Submit Review</button>
+								{% else %}
+									<a class="btn btn-danger " style="color: white;">Not Allowed</a>
+								{% endif %}
+							{% else %}
+								<a class="btn btn-danger " style="color: white;">Login Required</a>
+							{% endif %}
+						</div>
+						</form>
+					</div>
+
+				<br>
+
+				{% for review in reviews %}
+					<article class="box mb-3 " style="background-color: black; color: white; border: 1px solid red">
+						<div class="icontext w-100">
+							<img src="{% static './images/avatars/default.jpg' %}" class="img-xs icon rounded-circle">
+							<div class="text">
+								<span class="date text-muted float-md-right">{{ review.updated_at }} </span>
+								<h6 class="mb-1 text-muted">{{ review.user.first_name }} {{ review.user.last_name }}</h6>
+							</div>
+						</div> <!-- icontext.// -->
+
+						<div class="mt-3">
+							<span>
+								<i class="fa fa-star{% if review.rating == 0.5 %}-half-o{% elif review.rating < 1 %}-o{% endif %}" style="color: orange;"></i>
+								<i class="fa fa-star{% if review.rating == 1.5 %}-half-o{% elif review.rating < 2 %}-o{% endif %}"style="color: orange;"></i>
+								<i class="fa fa-star{% if review.rating == 2.5 %}-half-o{% elif review.rating < 3 %}-o{% endif %}"style="color: orange;"></i>
+								<i class="fa fa-star{% if review.rating == 3.5 %}-half-o{% elif review.rating < 4 %}-o{% endif %}"style="color: orange;"></i>
+								<i class="fa fa-star{% if review.rating == 4.5 %}-half-o{% elif review.rating < 5 %}-o{% endif %}"style="color: orange;"></i>
+							</span>
+							&nbsp;
+							<h6 style="display: inline-block;">
+								{{ review.subject}}
+							</h6>
+							<p>
+								{{ review.review }}
+							</p>
+						</div>
+					</article>
+				{% endfor %}
+
+
+
+			</div> <!-- col.// -->
+		</div> <!-- row.// -->
+
+
+	</div> <!-- container .//  -->
+</section>
+<!-- ========================= SECTION CONTENT END// ========================= -->
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+	var mainImageContainer = document.getElementsByClassName("img-big-wrap")[0];
+	var thumbnailParent = document.getElementsByClassName("product-thumbnail")[0];
+	var thumbnails = thumbnailParent.querySelectorAll("li");
+	thumbnails.forEach(thumbnail => {
+		thumbnail.addEventListener("click", function(){
+			var imgSource = thumbnail.querySelector("img").getAttribute("src");
+			mainImageContainer.querySelector("img").setAttribute("src", imgSource);
+		})
+	});
+</script>
+{% endblock %}

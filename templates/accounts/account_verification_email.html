@@ -1,0 +1,9 @@
+{% autoescape off %}
+
+Hello {{ user.first_name }},
+
+You registered an account on "Ecommerce Website" before being able to use your account you need to verify that this is your email address by clicking here: http://{{ domain }}{% url 'account:activate' uidb64=uid token=token %}
+
+Kind Regards, "Ecommerce Website"
+
+{% endautoescape %}

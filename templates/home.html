@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<!-- ========================= SECTION MAIN ========================= -->
+<section class="section-intro padding-y-sm">
+<div class="container">
+
+<div 
+	class="intro-banner-wrap rounded"
+	style=" height: 300px;
+		 	background: url(/static/images/banners/banner.png); 
+		   	background-position: center;
+           	background-size: cover;
+		   	background-repeat: no-repeat;"
+>
+</div>
+
+</div> <!-- container //  -->
+</section>
+<!-- ========================= SECTION MAIN END// ========================= -->
+
+<!-- ========================= SECTION  ========================= -->
+<section class="section-name padding-y-sm">
+<div class="container">
+
+<header class="section-heading">
+	<a href="{% url 'store:store' %}" class="btn btn-outline-danger float-right ">See all</a>
+	<h3 class="section-title text-white">Popular products</h3>
+</header><!-- sect-heading -->
+
+	
+<div class="row">
+	{% for product in products %}
+	<div class="col-md-3">
+		<div class="card card-product-grid ">
+			<a href="{{ product.get_url }}" class="img-wrap"> <img src="{{ product.images.url }}"> </a>
+			<figcaption class="info-wrap">
+				<a href="{{ product.get_url }}" class="title text-white">{{ product.product_name }}</a>
+				<div class="price mt-1 text-white">$ {{ product.price }}</div> <!-- price-wrap.// -->
+				<div class="rating" style="margin-bottom: 25px; color: orange;">
+					<i class="fa fa-star{% if product.get_rating < 0.5 %}-o{% elif product.get_rating < 1 %}-half-o{% endif %}"></i>
+					<i class="fa fa-star{% if product.get_rating < 1.5 %}-o{% elif product.get_rating < 2 %}-half-o{% endif %}"></i>
+					<i class="fa fa-star{% if product.get_rating < 2.5 %}-o{% elif product.get_rating < 3 %}-half-o{% endif %}"></i>
+					<i class="fa fa-star{% if product.get_rating < 3.5 %}-o{% elif product.get_rating < 4 %}-half-o{% endif %}"></i>
+					<i class="fa fa-star{% if product.get_rating < 4.5 %}-o{% elif product.get_rating < 5 %}-half-o{% endif %}"></i>
+				</div>
+			</figcaption>
+		</div>
+	</div> <!-- col.// -->
+	{% endfor %}
+</div> <!-- row.// -->
+
+</div><!-- container // -->
+</section>
+<!-- ========================= SECTION  END// ========================= -->
+
+
+
+{% endblock %}
